@@ -3,7 +3,10 @@
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
 // TODO: Find some tags.
-$foundTags = array();
+$foundTags = array(
+	(object) array('name' => 'TEST TAG NAME', 'file' => 'TEST FILE'),
+	(object) array('name' => 'TEST TAG 2', 'file' => 'TEST FILE 2'),
+);
 
 // Instantiate the template first.
 $template = View::factory('template');
@@ -17,7 +20,7 @@ foreach ($foundTags as $foundTag) {
 }
 
 // Assign the HTML into the template.
-$template->content = implode('<br />'.PHP_EOL, $content);
+$template->content = implode(PHP_EOL, $content);
 
 // Render.
 $template->render();
