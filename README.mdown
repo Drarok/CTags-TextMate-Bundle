@@ -2,6 +2,39 @@
 
 ## About
 
+This bundle aims to be a flexible way to use the popular [Exuberant CTags][ctags] system from within TextMate.
+
+I started creating it after finding the current offerings didn't quite meet my requirements, such as:
+
+* Allowing easy definition of the project's root directory.
+* Support for additional tag files (i.e. for included libraries).
+* Speed.
+* Other things that I'm sure will come back to me.
+
 ## Installation
 
+* Download the latest release from the [GitHub downloads][github_downloads] page.
+* Uncompress the file (Safari will do this for you by default).
+* Double-click the resulting file.
+* Set up your project's [Environment Variables][environment_vars].
+
 ## Usage
+
+Press Ctrl-] to attempt to look up a tag. If there's only one match, that file will be opened automatically.
+
+Press Ctrl-Alt-] to update your current project's tags file.
+
+## <a name="environment_vars">Environment Variables</a>
+
+There are a number of environment variables you *must* specify in your project, all prefixed with CT_ (for CTags):
+
+* CT\_PROJECT\_ROOT - The root directory of your project.
+* CT\_PROJECT\_INCLUDE - Root directories of other projects to search additional tag files from, separated by colons.
+
+There are also optional variables you *may* set:
+
+* CT\_USE\_CACHE - Allow use of the cache to speed up tag searches. Valid values: '1' for on, '0' for off. Default: '1'.
+
+[ctags]: http://ctags.sourceforge.net/
+[github_downloads]: https://github.com/Drarok/CTags-TextMate-Bundle/downloads
+[environment_vars]: #environment_vars
