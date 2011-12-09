@@ -4,8 +4,15 @@ require_once __DIR__ . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
 // TODO: Find some tags.
 $foundTags = array(
-	(object) array('name' => 'TEST TAG NAME', 'file' => 'TEST FILE'),
-	(object) array('name' => 'TEST TAG 2', 'file' => 'TEST FILE 2'),
+	(object) array(
+		'name' => 'Show Line 6',
+		'file' => __FILE__,
+		'line' => 6,
+	),
+	(object) array(
+		'name' => 'Just Open File',
+		'file' => __FILE__,
+	),
 );
 
 // Instantiate the template first.
