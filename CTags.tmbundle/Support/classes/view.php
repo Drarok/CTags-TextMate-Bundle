@@ -84,6 +84,30 @@ class View
 	}
 	
 	/**
+	 * Script adding helper method.
+	 *
+	 * @param string $script Script name to add.
+	 *
+	 * @return View Current instance.
+	 */
+	public function addScript($script)
+	{
+		// Get the current scripts, or an empty array if none.
+		$scripts = array_key_exists('scripts', $this->_variables)
+			? $this->_variables['scripts']
+			: array();
+		
+		// Add the new script.
+		$scripts[] = $script;
+		
+		// Store it for later.
+		$this->set('scripts', $scripts);
+		
+		// Chainable method.
+		return $this;
+	}
+	
+	/**
 	 * Variable setter for substitution when rendering.
 	 *
 	 * @param string|array $key   Name to use during replacement, or array of
