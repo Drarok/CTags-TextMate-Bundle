@@ -11,13 +11,13 @@
 $bundleSupport = $_SERVER['TM_BUNDLE_SUPPORT']
 	. DIRECTORY_SEPARATOR;
 
-require_once $bundleSupport . 'go_to_tag.php';</string>
+require_once $bundleSupport . 'find_tag.php';</string>
 	<key>input</key>
 	<string>none</string>
 	<key>keyEquivalent</key>
 	<string>^]</string>
 	<key>name</key>
-	<string>Go To Tag</string>
+	<string>Find Tag</string>
 	<key>output</key>
 	<string>showAsHTML</string>
 	<key>uuid</key>
