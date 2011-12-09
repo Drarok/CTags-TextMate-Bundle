@@ -1,0 +1,10 @@
+html, body {
+	font-family: "Helvetica", "Arial", sans-serif;
+}
+
+.tag {
+	border: 2px solid silver;
+	background: #EEE;
+	margin: 0.5em;
+	padding: 1em;
+}
