@@ -10,6 +10,7 @@ $foundTags = array(
 
 // Instantiate the template first.
 $template = View::factory('template');
+$template->addScript('find_tag');
 
 // Loop over each found tag, rendering to HTML.
 $content = array();
