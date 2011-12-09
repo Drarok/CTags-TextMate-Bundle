@@ -6,12 +6,12 @@
 	<string>nop</string>
 	<key>command</key>
 	<string>#!/usr/bin/php
+&lt;?php
 
 $bundleSupport = $_SERVER['TM_BUNDLE_SUPPORT']
-	. DIRECTORY_SEPARATOR . 'Support'
 	. DIRECTORY_SEPARATOR;
 
-require_once $root . 'go_to_tag.php';</string>
+require_once $bundleSupport . 'go_to_tag.php';</string>
 	<key>input</key>
 	<string>none</string>
 	<key>keyEquivalent</key>
