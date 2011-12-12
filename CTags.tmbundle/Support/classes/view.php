@@ -59,10 +59,10 @@ class View
 	}
 	
 	/**
-	 * Magic setter, passes to ->set()
+	 * Magic setter, passes to ->set().
 	 *
-	 * @param string $key Key to store the value as.
-	 * @param mixed $value Value to store.
+	 * @param string $key   Key to store the value as.
+	 * @param mixed  $value Value to store.
 	 *
 	 * @return void
 	 */
