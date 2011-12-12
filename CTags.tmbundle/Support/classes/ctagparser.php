@@ -136,6 +136,11 @@ class CTagParser
 				'type' => $match['type'],
 				'other' => $match['other'],
 			);
+			
+			if (substr($tag->other, 0, 5) == 'line:') {
+				// Set the line number if it's in the 'other' property.
+				$tag->line = (int) substr($tag->other, 5);
+			}
 
 			if (! array_key_exists($tag->name, $this->_tags)) {
 				// Create an empty array if they key doesn't yet exist.
