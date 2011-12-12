@@ -5,4 +5,8 @@
 		'title' => $tag->file,
 	)); ?>
 		<span class="name"><?php echo $tag->name; ?></span>
+<?php if (isset($tag->line)) { ?>
+		<br />
+		<span class="line">Line: <?php echo $tag->line; ?></span>
+<?php } ?>
 	</div>
