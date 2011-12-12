@@ -53,31 +53,6 @@ class CTagParser
 	}
 	
 	/**
-	 * Find a class tags, returning an array of where it's used.
-	 *
-	 * @param string $class Class name to look for.
-	 *
-	 * @return mixed Array of tag info on success, or false.
-	 */
-	public function findClass($class)
-	{
-		if (($tags = $this->findTag($class)) === false) {
-			return false;
-		}
-		
-		// Loop over each found tag, fetching the class tags.
-		$classes = array();
-		foreach ($tags as $tag) {
-			if ($tag->type == 'c') {
-				$classes[] = $tag;
-			}
-		}
-		
-		// Return false if no classes found.
-		return $classes ?: false;
-	}
-	
-	/**
 	 * Filename setter.
 	 *
 	 * @param string $filename Path to the file to parse.
@@ -153,13 +128,22 @@ class CTagParser
 		}
 		
 		foreach ($matches as $match) {
-			$this->_tags[] = (object) array(
+			// Create a tag object.
+			$tag = (object) array(
 				'name' => $match['name'],
 				'file' => $match['file'],
 				'pattern' => $match['pattern'],
 				'type' => $match['type'],
 				'other' => $match['other'],
 			);
+
+			if (! array_key_exists($tag->name, $this->_tags)) {
+				// Create an empty array if they key doesn't yet exist.
+				$this->_tags[$tag->name] = array();
+			}
+			
+			// Store this tag under its name.
+			$this->_tags[$tag->name][] = $tag;
 		}
 		
 		$time = sprintf('%.3f', microtime(true) - $startTime);
