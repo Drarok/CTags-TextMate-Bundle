@@ -2,6 +2,9 @@
 /**
  */
 
+// This is a very memory-hungry class.
+ini_set('memory_limit', '1G');
+
 /**
  */
 class CTagParser
@@ -113,7 +116,10 @@ class CTagParser
 		$cacheFileName = $this->_filename . '.cache';
 		
 		if (file_exists($cacheFileName)) {
+			$startTime = microtime(true);
 			$this->_tags = unserialize(file_get_contents($cacheFileName));
+			$time = sprintf('%.3f', microtime(true) - $startTime);
+			echo 'Loaded ', count($this->_tags), ' tag(s) from cache in ', $time, PHP_EOL;
 		}
 	}
 	
@@ -126,84 +132,40 @@ class CTagParser
 	 */
 	protected function _parse($force = false)
 	{
+		$startTime = microtime(true);
+		
 		if (! $force && $this->_tags) {
 			// There's already tags loaded, and we weren't forced.
 			return;
 		}
 		
+		static $pattern = '/^(?P<name>[^\t]+)\t(?P<file>[^\t]+)\t(?P<pattern>\/.*?\/;")\t(?P<type>[^\t]+)\t?(?P<other>.*)$/m';
+		
 		// Clear the currently-cached tags.
 		$this->_tags = array();
 		
-		// Open the file, obviously.
-		$file = fopen($this->_filename, 'r');
+		// Read the whole file (!).
+		$file = file_get_contents($this->_filename);
 		
-		// Loop over each line in the file, processing each tag in turn.
-		while ($line = fgets($file)) {
-			if (! $line = trim($line)) {
-				// Ignore blank lines.
-				continue;
-			}
-			
-			if (substr($line, 0, 6) == '!_TAG_') {
-				// Ignore ctag comments.
-				continue;
-			}
-			
-			// Parse the line into an object.
-			if (! $tag = $this->_parseLine($line)) {
-				continue;
-			}
-			
-			if (! array_key_exists($tag->name, $this->_tags)) {
-				// Ensure there's an array for us to add to.
-				$this->_tags[$tag->name] = array();
-			}
-			
-			// Store the tag for later.
-			$this->_tags[$tag->name][] = $tag;
+		// Use preg_match_all to do the heavy lifting.
+		if (! $count = preg_match_all($pattern, $file, $matches, PREG_SET_ORDER)) {
+			throw new Exception('Failed to match regular expression: ' . $count);
 		}
 		
-		// Always close the file.
-		fclose($file);
+		foreach ($matches as $match) {
+			$this->_tags[] = (object) array(
+				'name' => $match['name'],
+				'file' => $match['file'],
+				'pattern' => $match['pattern'],
+				'type' => $match['type'],
+				'other' => $match['other'],
+			);
+		}
 		
+		$time = sprintf('%.3f', microtime(true) - $startTime);
+		echo 'Loaded ', count($this->_tags), ' tag(s) from file in ', $time, 'ms', PHP_EOL;
+		
+		// Save the tags to the cache.
 		$this->_saveCache();
-		
-		/*
-		$types = array();
-		
-		foreach ($this->_tags as $name => $tags) {
-			foreach ($tags as $tag) {
-				if (! array_key_exists($tag->type, $types)) {
-					$types[$tag->type] = 0;
-				}
-				
-				$types[$tag->type]++;
-			}
-		}
-		*/
-	}
-	
-	/**
-	 * Parse the line into an object.
-	 *
-	 * @param string $line Raw line from the file.
-	 *
-	 * @return object Tag object representing the line.
-	 */
-	protected function _parseLine($line)
-	{
-		static $pattern = '/^(?P<name>[^\t]+)\t(?P<file>[^\t]+)\t(?P<pattern>\/.*?\/;")\t(?P<type>.)\t?(?P<other>.*)$/';
-		
-		if (! preg_match($pattern, $line, $matches)) {
-			throw new Exception('Failed to match line: ' . $line);
-		}
-		
-		return (object) array(
-			'name' => $matches['name'],
-			'file' => $matches['file'],
-			'pattern' => $matches['pattern'],
-			'type' => $matches['type'],
-			'other' => $matches['other'],
-		);
 	}
 }
