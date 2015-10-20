@@ -13,8 +13,6 @@ if (isset($_SERVER['CT_PROJECT_ROOT'])) {
 	. 'environment variable in your Project.');
 }
 
-// Shorthand for the project root.
-
 require_once implode(DS, array(
 	__DIR__,
 	'classes',
