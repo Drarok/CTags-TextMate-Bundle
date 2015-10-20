@@ -2,8 +2,9 @@
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
+
 $cmd = implode(' ', array(
-	escapeshellcmd(BUNDLE_SUPPORT . 'bin' . DS . 'ctags'),
+	escapeshellarg(BUNDLE_SUPPORT . 'bin' . DS . 'ctags'),
 	'-f',
 	escapeshellarg(CT_PROJECT_ROOT . 'tmtags'),
 	'--fields=Kn',
